@@ -90,7 +90,34 @@
     </nav>
 </div>
 
-    <script src="script.js">
+    <script>
+        // Login falso
+        document.addEventListener('DOMContentLoaded', () => {
+    
+            const botaoEntrar = document.querySelector('.login-btn');
+
+            botaoEntrar.addEventListener('click', () => {
+                // Captura o que o usuário digitou
+                const campoEmail = document.getElementById('email').value;
+                const campoSenha = document.getElementById('senha').value;
+
+                // A "Mágica" para enganar: se tiver algo escrito em ambos, ele entra
+                if (campoEmail.trim() !== "" && campoSenha.trim() !== "") {
+                    // 1. Esconde o Login
+                    document.getElementById('Login').style.display = 'none';
+
+                    // 2. Mostra o app (div Geral)
+                    document.getElementById('geral').style.display = 'block';
+            
+                    console.log("Acesso permitido para: " + campoEmail);
+                } else {
+                    // Se estiver vazio, ele avisa (isso dá um ar de 'app de verdade')
+                    alert("Por favor, preencha o e-mail e a senha institucional.");
+                }
+            });
+        });
+
+
         /* NAVEGAÇÃO PRINCIPAL */
         function mudarAbaPrincipal(idDaView, botaoClicado) {
             document.querySelectorAll('.main-tab').forEach(s => s.style.display = 'none');
