@@ -33,15 +33,19 @@ body {
 
 .login-container {
     padding: 0;
-    width: 90%;        /* Ocupa 90% da tela em celulares */
 }
 
 #slogan { 
     display: flex;
-    align-items: center;
-    justify-content: center; /* Centraliza o conjunto todo na tela */
-    flex-wrap: wrap;         /* Permite que o h4 (slogan) pule para a linha de baixo */
-    margin: 50px;
+    flex-direction: column; /* Faz os filhos (uniao-logo e h4) ficarem em colunas */
+    align-items: center;    /* Centraliza tudo horizontalmente */
+    margin-bottom: 50px;
+}
+
+.uniao-logo {
+    display: flex;
+    align-items: center;    /* Alinha imagem e H1 verticalmente entre si */
+    justify-content: center;
 }
 
 #logo {
