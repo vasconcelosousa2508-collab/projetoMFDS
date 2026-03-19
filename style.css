@@ -16,6 +16,94 @@ body {
     padding-bottom: 80px; 
 }
 
+/* Esconde a interface principal inicialmente, mostrando apenas a tela de login */
+#geral {
+    display: none;
+}
+
+/* Estilização básica para a tela de login ocupar a tela toda */
+#Login {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg);
+}
+
+.login-container {
+    padding: 0;
+    width: 90%;        /* Ocupa 90% da tela em celulares */
+}
+
+#slogan { 
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o conjunto todo na tela */
+    flex-wrap: wrap;         /* Permite que o h4 (slogan) pule para a linha de baixo */
+    margin: 50px;
+}
+
+#logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    opacity: 0.7; 
+}
+
+#slogan h1 {
+    font-size: 4.5rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--primary);
+    margin: 0 0 10px 0;
+}
+
+#slogan h4 {
+    font-size: 1.5rem;
+    color: var(--secondary);
+    margin: 0 0 30px 0;
+    margin-bottom: 30px;
+}
+
+#login-form {
+    max-width: 420px;  /* NÃO deixa passar de 450px (tamanho padrão de formulário) */
+    margin: 0 auto;     /* Centraliza horizontalmente */
+    margin-top: 20px;
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    
+}
+#login-form h3 {
+    color: var(--primary);
+}
+#login-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    outline: none;
+}
+
+#email{
+margin-top: 20px;
+}
+
+.login-btn {
+    text-align: center;
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    }
+
 /* --- COMPONENTES DE HEADER --- */
 .header {
     background: var(--card);
