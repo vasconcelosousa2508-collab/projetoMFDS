@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookTinder Simulation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <h1>BookTinder</h1>
+    </header>
+
+    <div id="view-estante" class="main-tab"> 
+        <header class="aba-header">
+            <h1>Minha Estante</h1>
+            <button class="add-btn" onclick="abrirModal()">+</button>
+        </header>
+
+        <div class="filter-bar">
+            <button id="btn-tenho" class="filter-item active" onclick="trocarSubAba('aba-meus-livros', this)">Meus Livros</button>
+            <button id="btn-quero" class="filter-item" onclick="trocarSubAba('aba-quero-ler', this)">Quero Ler</button>
+        </div>
+
+        <main class="feed-container">
+            <section id="aba-meus-livros" class="tab-content active">
+                <p class="empty-msg">Nenhum livro na sua estante.</p>
+            </section>
+
+            <section id="aba-quero-ler" class="tab-content">
+                <p class="empty-msg">Sua lista de desejos está vazia.</p>
+            </section>
+        </main>
+
+        <div id="modal-adicionar" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <h2>Adicionar Livro</h2>
+                <input type="text" id="input-titulo" placeholder="Título do Livro">
+                <input type="text" id="input-autor" placeholder="Autor">
+                <select id="select-tipo">
+                    <option value="tenho">Eu tenho este livro</option>
+                    <option value="desejo">Quero ler este livro</option>
+                </select>
+                <div class="modal-buttons">
+                    <button onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
+                    <button onclick="salvarLivro()" class="btn-salvar">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-busca" class="main-tab" style="display:none;">
+        <div class="feed-container"><h1>Página de Busca</h1></div>
+    </div>
+    
+    <div id="view-perfil" class="main-tab" style="display:none;">
+        <div class="feed-container"><h1>Meu Perfil</h1></div>
+    </div>
+    
+    <div id="view-notificacoes" class="main-tab" style="display:none;">
+        <div class="feed-container"><h1>Notificações</h1></div>
+    </div>
+
+    <nav class="tab-bar">
+        <button class="tab-item" onclick="mudarAbaPrincipal('view-busca', this)">🔍<span>Busca</span></button>
+        <button class="tab-item active" onclick="mudarAbaPrincipal('view-estante', this)">📚<span>Estante</span></button>
+        <button class="tab-item" onclick="mudarAbaPrincipal('view-perfil', this)">👤<span>Perfil</span></button>
+        <button class="tab-item" onclick="mudarAbaPrincipal('view-notificacoes', this)">🔔<span>Notificações</span></button>
+    </nav>
+
+    <script>
+        /* NAVEGAÇÃO PRINCIPAL */
+        function mudarAbaPrincipal(idDaView, botaoClicado) {
+            document.querySelectorAll('.main-tab').forEach(s => s.style.display = 'none');
+            document.getElementById(idDaView).style.display = 'block';
+            document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+            botaoClicado.classList.add('active');
+        }
+
+        /* NAVEGAÇÃO SUB-ABAS (Estante) */
+        function trocarSubAba(idSubAba, botaoClicado) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(idSubAba).classList.add('active');
+            document.querySelectorAll('.filter-item').forEach(btn => btn.classList.remove('active'));
+            botaoClicado.classList.add('active');
+        }
+
+        /* LÓGICA DO MODAL */
+        function abrirModal() {
+            document.getElementById('modal-adicionar').style.display = 'flex';
+        }
+
+        function fecharModal() {
+            document.getElementById('modal-adicionar').style.display = 'none';
+        }
+
+        function salvarLivro() {
+            const titulo = document.getElementById('input-titulo').value;
+            const autor = document.getElementById('input-autor').value;
+            const tipo = document.getElementById('select-tipo').value;
+
+            if (titulo === "") { alert("Digite ao menos o título!"); return; }
+
+            const novoCard = `
+                <section class="post-card">
+                    <div class="book-mini">
+                        <div class="book-cover ${tipo === 'tenho' ? 'available' : 'borrowed'}"></div>
+                        <div class="book-details">
+                            <p><strong>${titulo}</strong></p>
+                            <p>${autor}</p>
+                            <span class="status-text ${tipo === 'desejo' ? 'warning' : ''}">
+                                ${tipo === 'tenho' ? 'Disponível na minha estante' : 'Desejado'}
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            `;
+
+            const idLista = (tipo === 'tenho') ? 'aba-meus-livros' : 'aba-quero-ler';
+            const lista = document.getElementById(idLista);
+
+            if (lista.querySelector('.empty-msg')) { lista.innerHTML = ''; }
+
+            lista.innerHTML += novoCard;
+            document.getElementById('input-titulo').value = "";
+            document.getElementById('input-autor').value = "";
+            fecharModal();
+        }
+    </script>
+</body>
+</html>
