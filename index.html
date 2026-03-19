@@ -8,7 +8,25 @@
 </head>
 <body>
 
-    <header class="header">
+    <div id="Login">
+        <div class="login-container">
+            <div id="slogan">
+                <img id="logo" src="https://makemoneyunstoppable.com/wp-content/uploads/2025/07/open-book-2.png" alt="Logo UniBook">
+                <h1>UniBook</h1>
+                <h4>Mergulhe no mundo dos livros</h4>
+            </div>
+
+            <div id="login-form">
+                <h3>Log in</h3>
+                <input id="email" type="text" placeholder="E-mail institucional"><br>
+                <input id="senha" type="password" placeholder="Senha"><br>
+                <button class="login-btn">Entrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="geral">
+        <header class="header">
         <h1>UniBook</h1>
     </header>
 
@@ -68,8 +86,9 @@
         <button class="tab-item" onclick="mudarAbaPrincipal('view-perfil', this)">👤<span>Perfil</span></button>
         <button class="tab-item" onclick="mudarAbaPrincipal('view-notificacoes', this)">🔔<span>Notificações</span></button>
     </nav>
+</div>
 
-    <script>
+    <script src="script.js">
         /* NAVEGAÇÃO PRINCIPAL */
         function mudarAbaPrincipal(idDaView, botaoClicado) {
             document.querySelectorAll('.main-tab').forEach(s => s.style.display = 'none');
@@ -129,4 +148,6 @@
         }
     </script>
 </body>
+</html>
+
 </html>
