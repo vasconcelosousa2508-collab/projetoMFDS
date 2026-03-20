@@ -39,29 +39,35 @@
         </header>
 
         <div class="filter-bar">
-            <button id="btn-tenho" class="filter-item active" onclick="trocarSubAba('aba-meus-livros', this)">Meus Livros</button>
-            <button id="btn-quero" class="filter-item" onclick="trocarSubAba('aba-quero-ler', this)">Quero Ler</button>
-        </div>
+    <button id="btn-tenho" class="filter-item active" onclick="trocarSubAba('aba-meus-livros', this)">Meus Livros</button>
+    <button id="btn-quero" class="filter-item" onclick="trocarSubAba('aba-quero-ler', this)">Quero Ler</button>
+    <button id="btn-emprestados" class="filter-item" onclick="trocarSubAba('aba-emprestados', this)">Emprestados</button>
+</div>
 
         <main class="feed-container">
-            <section id="aba-meus-livros" class="tab-content active">
-                <p class="empty-msg">Nenhum livro na sua estante.</p>
-            </section>
+    <section id="aba-meus-livros" class="tab-content active">
+        <p class="empty-msg">Nenhum livro na sua estante.</p>
+    </section>
 
-            <section id="aba-quero-ler" class="tab-content">
-                <p class="empty-msg">Sua lista de desejos está vazia.</p>
-            </section>
-        </main>
+    <section id="aba-quero-ler" class="tab-content">
+        <p class="empty-msg">Sua lista de desejos está vazia.</p>
+    </section>
+
+    <section id="aba-emprestados" class="tab-content">
+        <p class="empty-msg">Você não tem livros emprestados no momento.</p>
+    </section>
+</main>
 
         <div id="modal-adicionar" class="modal-overlay" style="display: none;">
             <div class="modal-content">
                 <h2>Adicionar Livro</h2>
                 <input type="text" id="input-titulo" placeholder="Título do Livro">
                 <input type="text" id="input-autor" placeholder="Autor">
-                <select id="select-tipo">
-                    <option value="tenho">Eu tenho este livro</option>
-                    <option value="desejo">Quero ler este livro</option>
-                </select>
+              
+              <select id="select-tipo">
+    <option value="tenho">Eu tenho este livro</option>
+    <option value="desejo">Quero ler este livro</option>
+</select>
                 <div class="modal-buttons">
                     <button onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
                     <button onclick="salvarLivro()" class="btn-salvar">Salvar</button>
@@ -206,17 +212,14 @@
             document.getElementById('modal-adicionar').style.display = 'none';
         }
 
-      function atualizarContadores() {
-    // Conta quantos cards existem em cada seção
-    const qtdMeusLivros = document.querySelectorAll('#aba-meus-livros .post-card').length;
-    const qtdQueroLer = document.querySelectorAll('#aba-quero-ler .post-card').length;
+function atualizarContadores() {
+    const qtdMeus = document.querySelectorAll('#aba-meus-livros .post-card').length;
+    const qtdQuero = document.querySelectorAll('#aba-quero-ler .post-card').length;
+    const qtdEmprestados = document.querySelectorAll('#aba-emprestados .post-card').length;
 
-    // Atualiza os números lá no Perfil
-    const campoMeus = document.getElementById('count-meus');
-    const campoQuero = document.getElementById('count-quero');
-
-    if(campoMeus) campoMeus.innerText = qtdMeusLivros;
-    if(campoQuero) campoQuero.innerText = qtdQueroLer;
+    document.getElementById('count-meus').innerText = qtdMeus;
+    document.getElementById('count-quero').innerText = qtdQuero;
+    document.getElementById('count-emprestimos').innerText = qtdEmprestados;
 }
 function salvarLivro() {
     const titulo = document.getElementById('input-titulo').value;
