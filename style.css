@@ -1,420 +1,309 @@
-/* --- CONFIGURAÇÕES GERAIS --- */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniBook Simulation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-:root {
-    --primary: #6c5ce7;
-    --secondary: #00b894;
-    --bg: #f9f9fb;
-    --text: #2d3436;
-    --card: #ffffff;
-    --gray: #b2bec3;
-}
+    <div id="Login">
+        <div class="login-container">
+            <div id="slogan">
+                <div class="uniao-logo">
+                    <img id="logo" src="https://makemoneyunstoppable.com/wp-content/uploads/2025/07/open-book-2.png" alt="Logo UniBook">
+                    <h1>UniBook</h1>
+                </div>
+                <h4>Mergulhe no mundo dos livros</h4>
+            </div>
 
-body { 
-    background-color: var(--bg); 
-    color: var(--text); 
-    padding-bottom: 80px; 
-}
+            <div id="login-form">
+                <h3>Log in</h3>
+                <input id="email" type="text" placeholder="E-mail institucional"><br>
+                <input id="senha" type="password" placeholder="Senha"><br>
+                <button class="login-btn">Entrar</button>
+            </div>
+        </div>
+    </div>
 
-/* Esconde a interface principal inicialmente, mostrando apenas a tela de login */
-#geral {
-    display: none;
-}
+    <div id="geral">
+        <header class="header">
+        <h1>UniBook</h1>
+    </header>
 
-/* Estilização básica para a tela de login ocupar a tela toda */
-#Login {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--bg);
-}
+    <div id="view-estante" class="main-tab"> 
+        <header class="aba-header">
+            <h1>Minha Estante</h1>
+            <button class="add-btn" onclick="abrirModal()">+</button>
+        </header>
 
-.login-container {
-    padding: 0;
-}
+        <div class="filter-bar">
+            <button id="btn-tenho" class="filter-item active" onclick="trocarSubAba('aba-meus-livros', this)">Meus Livros</button>
+            <button id="btn-quero" class="filter-item" onclick="trocarSubAba('aba-quero-ler', this)">Quero Ler</button>
+        </div>
 
-#slogan { 
-    display: flex;
-    flex-direction: column; /* Faz os filhos (uniao-logo e h4) ficarem em colunas */
-    align-items: center;    /* Centraliza tudo horizontalmente */
-    margin-bottom: 50px;
-}
+        <main class="feed-container">
+            <section id="aba-meus-livros" class="tab-content active">
+                <p class="empty-msg">Nenhum livro na sua estante.</p>
+            </section>
 
-.uniao-logo {
-    display: flex;
-    align-items: center;    /* Alinha imagem e H1 verticalmente entre si */
-    justify-content: center;
-}
+            <section id="aba-quero-ler" class="tab-content">
+                <p class="empty-msg">Sua lista de desejos está vazia.</p>
+            </section>
+        </main>
 
-#logo {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 20px;
-    margin-right: 10px;
-    opacity: 0.7; 
-}
+        <div id="modal-adicionar" class="modal-overlay" style="display: none;">
+            <div class="modal-content">
+                <h2>Adicionar Livro</h2>
+                <input type="text" id="input-titulo" placeholder="Título do Livro">
+                <input type="text" id="input-autor" placeholder="Autor">
+                <select id="select-tipo">
+                    <option value="tenho">Eu tenho este livro</option>
+                    <option value="desejo">Quero ler este livro</option>
+                </select>
+                <div class="modal-buttons">
+                    <button onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
+                    <button onclick="salvarLivro()" class="btn-salvar">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-#slogan h1 {
-    font-size: 4.5rem;
-    font-family: 'Segoe UI', sans-serif;
-    color: var(--primary);
-    margin: 0 0 10px 0;
-}
+          <div id="view-busca" class="main-tab" style="display:none;">
+        <div class="feed-container"><h1>Página de Busca</h1></div>
+    </div>
 
-#slogan h4 {
-    font-size: 1.5rem;
-    color: var(--secondary);
-    margin: 0 0 30px 0;
-    margin-bottom: 30px;
-}
-
-#login-form {
-    max-width: 420px;  /* NÃO deixa passar de 450px (tamanho padrão de formulário) */
-    margin: 0 auto;     /* Centraliza horizontalmente */
-    margin-top: 20px;
-    background: white;
-    padding: 40px;
-    border-radius: 24px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     
-}
-#login-form h3 {
-    color: var(--primary);
-}
-#login-form input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    outline: none;
-}
+<div id="view-perfil" class="main-tab" style="display:none;">
+    <div class="perfil-container">
+        
+        <section class="perfil-header">
+            
+            <div class="avatar-wrapper">
+                <img id="foto-perfil" src="https://static.vecteezy.com/system/resources/thumbnails/027/312/306/small/portrait-of-a-dj-with-headphone-isolated-essential-workers-avatar-icons-characters-for-social-media-and-networking-user-profile-website-and-app-3d-render-illustration-png.png" alt="Avatar">
+                <input type="file" id="input-foto" accept="image/*" style="display: none;">
+                <label for="input-foto" class="btn-editar-foto">✎</label>
+            </div>
+            
+            <h2 id="nome-perfil" contenteditable="true" spellcheck="false">Estudante Uni</h2>
+            
+            <p id="email-perfil">seu.email@institucional.edu.br</p>
+            
+            <button id="btn-salvar-perfil" style="display: none;">Salvar Alterações</button>
+        </section>
 
-#email{
-margin-top: 20px;
-}
+        <section class="perfil-stats">
+            <div class="stat-item linha1">
+                  <strong id="count-meus">0</strong>
+                  <span>Meus Livros</span>
+            </div>
+            <div class="stat-item linha2">
+                <strong id="count-quero">0</strong>
+                <span>Quero Ler</span>
+            </div>
+                      <div class="stat-item">
+                <strong id="count-emprestimos">0</strong>
+                <span>Emprestados</span>
+            </div>
+            <div class="stat-item">
+                <strong id="count-devolvidos">0</strong>
+                <span>Devolvidos</span>
+            </div>
+        </section>
 
-.login-btn {
-    text-align: center;
-    background: var(--primary);
-    color: white;
-    border: none;
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: bold;
-    cursor: pointer;
+        <ul class="perfil-menu">
+            <li><span>Meus Empréstimos</span> ➔</li>
+            <li class="logout" onclick="window.location.reload()">Sair da Conta</li>
+        </ul>
+    </div>
+</div>
+
+    <div id="view-agenda" class="main-tab" style="display:none;">
+        <div class="feed-container"><h1>Agenda</h1></div>
+    </div>
+    
+    <div id="view-notificacoes" class="main-tab" style="display:none;">
+        <div class="feed-container"><h1>Notificações</h1></div>
+    </div>
+
+    <nav class="tab-bar">
+        <button class="tab-item" onclick="mudarAbaPrincipal('view-busca', this)">🔍<span>Busca</span></button>
+        <button class="tab-item active" onclick="mudarAbaPrincipal('view-estante', this)">📚<span>Estante</span></button>
+        <button class="tab-item" onclick="mudarAbaPrincipal('view-perfil', this)">👤<span>Perfil</span></button>
+        <button class="tab-item" onclick="mudarAbaPrincipal('view-agenda', this)">📅<span>Agenda</span></button>
+        <button class="tab-item" onclick="mudarAbaPrincipal('view-notificacoes', this)">🔔<span>Notificações</span></button>
+    </nav>
+</div>
+
+    <script>
+// Variável global para guardar o e-mail temporariamente
+    let emailUsuarioLogado = "";
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const botaoEntrar = document.querySelector('.login-btn');
+
+        botaoEntrar.addEventListener('click', () => {
+            const campoEmail = document.getElementById('email').value;
+            const campoSenha = document.getElementById('senha').value;
+
+            if (campoEmail.trim() !== "" && campoSenha.trim() !== "") {
+                // APENAS GUARDA O EMAIL, não mexe no perfil ainda
+                emailUsuarioLogado = campoEmail;
+
+                document.getElementById('Login').style.display = 'none';
+                document.getElementById('geral').style.display = 'block';
+            } else {
+                alert("Por favor, preencha os campos!");
+            }
+        });
+    });
+
+    /* NAVEGAÇÃO PRINCIPAL */
+    function mudarAbaPrincipal(idDaView, botaoClicado) {
+        // Esconde todas as abas
+        document.querySelectorAll('.main-tab').forEach(s => s.style.display = 'none');
+        
+        // Mostra a aba clicada
+        document.getElementById(idDaView).style.display = 'block';
+        
+        // Gerencia a classe active nos botões
+        document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+        botaoClicado.classList.add('active');
+
+        // --- NOVIDADE AQUI: Se a aba clicada for o Perfil, preenche os dados ---
+        if (idDaView === 'view-perfil') {
+            const campoNome = document.getElementById('nome-perfil');
+            const campoEmailPerfil = document.getElementById('email-perfil');
+
+            // Se o nome ainda estiver com o texto original ou vazio, coloca "Você"
+            if (campoNome.innerText === "" || campoNome.innerText === "Meu Perfil") {
+                campoNome.innerText = "Você";
+            }
+            
+            // Preenche o e-mail que guardamos no login
+            campoEmailPerfil.innerText = emailUsuarioLogado;
+        }
     }
 
-/* --- COMPONENTES DE HEADER --- */
-.header {
-    background: var(--card);
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-.header h1 { font-size: 1.2rem; color: var(--primary); }
+        /* NAVEGAÇÃO SUB-ABAS (Estante) */
+        function trocarSubAba(idSubAba, botaoClicado) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(idSubAba).classList.add('active');
+            document.querySelectorAll('.filter-item').forEach(btn => btn.classList.remove('active'));
+            botaoClicado.classList.add('active');
+        }
 
-.aba-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background: var(--bg);
-}
-.aba-header h1 { font-size: 1.1rem; color: var(--text); }
+        /* LÓGICA DO MODAL */
+        function abrirModal() {
+            document.getElementById('modal-adicionar').style.display = 'flex';
+        }
 
-.add-btn { 
-    background: var(--primary); 
-    color: white; 
-    border: none; 
-    width: 32px; height: 32px; 
-    border-radius: 50%; 
-    font-weight: bold;
-    cursor: pointer;
-}
+        function fecharModal() {
+            document.getElementById('modal-adicionar').style.display = 'none';
+        }
 
-/* --- FILTROS E ABAS --- */
-.filter-bar {
-    display: flex;
-    justify-content: space-around;
-    background: var(--card);
-    border-bottom: 1px solid #eee;
-}
-.filter-item {
-    border: none; background: none;
-    font-weight: bold; color: var(--gray);
-    font-size: 0.9rem; padding: 12px 0;
-    width: 50%; transition: 0.3s;
-}
-.filter-item.active {
-    color: var(--primary);
-    border-bottom: 3px solid var(--primary);
-}
+        function salvarLivro() {
+            const titulo = document.getElementById('input-titulo').value;
+            const autor = document.getElementById('input-autor').value;
+            const tipo = document.getElementById('select-tipo').value;
 
-.tab-content { display: none; }
-.tab-content.active { display: block; }
+            if (titulo === "") { alert("Digite ao menos o título!"); return; }
 
-/* --- CARDS DE LIVROS --- */
-.feed-container { padding: 15px; }
-.post-card {
-    display: flex; 
-    justify-content: space-between; /* Empurra o conteúdo pros cantos opostos */
-    align-items: center;            /* Alinha o ícone da lixeira verticalmente no meio */
-    background: var(--card);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-}
+            const novoCard = `
+            <section class="post-card">
+                <div class="book-info-wrapper">
+                    <div class="book-cover ${tipo === 'tenho' ? 'available' : 'borrowed'}"></div>
+                    <div class="book-details">
+                        <p><strong>${titulo}</strong></p>
+                        <p>${autor}</p>
+                        <span class="status-text ${tipo === 'desejo' ? 'warning' : ''}">
+                            ${tipo === 'tenho' ? 'Disponível na minha estante' : 'Desejado'}
+                            </span>
+                            </div>
+                            </div>
+                            <button class="btn-excluir" onclick="removerLivro(this)">
+                                <img src="https://img.icons8.com/fluent-systems-regular/512/FA5252/trash.png" alt="Excluir">
+                                </button>
+                                </section>
+            `;
 
-.book-info-wrapper {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
+            const idLista = (tipo === 'tenho') ? 'aba-meus-livros' : 'aba-quero-ler';
+            const lista = document.getElementById(idLista);
 
-.book-details {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
+            if (lista.querySelector('.empty-msg')) { lista.innerHTML = ''; }
 
-.book-mini { display: flex; gap: 15px; }
-.book-cover { width: 60px; height: 90px; border-radius: 6px; }
-.book-cover.available { background: var(--secondary); }
-.book-cover.borrowed { background: var(--primary); opacity: 0.6; }
+            lista.innerHTML += novoCard;
+            document.getElementById('input-titulo').value = "";
+            document.getElementById('input-autor').value = "";
+            fecharModal();
+        }
 
-.status-text { font-size: 0.75rem; color: var(--secondary); font-weight: bold; }
-.status-text.warning { color: var(--primary); }
+        function removerLivro(botao) {
+            if (confirm("Deseja remover este livro da estante?")) {
+                // O parentElement do botão é o .post-card
+                const card = botao.closest('.post-card');
+                const lista = card.parentElement;
+        
+                card.remove();
 
-.btn-excluir {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px; /* Aumenta a área de clique, melhor pro celular */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+                // Se a lista ficar vazia, mostra a mensagem de "estante vazia" de novo
+                if (lista.querySelectorAll('.post-card').length === 0) {
+                    lista.innerHTML = '<p class="empty-msg">Sua lista está vazia.</p>';
+                }
+            }
+        }
 
-.btn-excluir img {
-    width: 22px; 
-    height: 22px;
-    opacity: 0.6;
-    transition: 0.3s;
-}
+      // Navegação Perfil sub aba
+      // DENTRO da função que você usa para fazer o LOGIN:
+const emailDigitado = document.getElementById('email').value; // Pega o email do input de login
+document.getElementById('email-perfil').innerText = emailDigitado; // Joga no perfil
 
-.btn-excluir:hover img {
-    opacity: 1;
-    transform: scale(1.1);
-}
+// Opcional: Tenta criar um nome padrão a partir do email
+const nomeSimulado = emailDigitado.split('@')[0];
+document.getElementById('nome-perfil').innerText = nomeSimulado.charAt(0).toUpperCase() + nomeSimulado.slice(1);
 
-/* --- AÇÕES E ÍCONES --- */
-.post-actions {
-    margin-top: 12px;
-    padding-top: 10px;
-    border-top: 1px solid #f1f2f6;
-    display: flex; gap: 15px;
-}
-.post-actions span {
-    display: flex; align-items: center;
-    font-size: 0.8rem; color: var(--text);
-}
-.icon-small {
-    width: 16px; height: 16px;
-    margin-right: 6px; object-fit: contain;
-}
+      /* --- LÓGICA DE EDIÇÃO DO PERFIL --- */
+document.addEventListener('DOMContentLoaded', () => {
+    const inputFoto = document.getElementById('input-foto');
+    const fotoPerfil = document.getElementById('foto-perfil');
+    const nomePerfil = document.getElementById('nome-perfil');
+    const btnSalvar = document.getElementById('btn-salvar-perfil');
 
-/* --- MENU INFERIOR --- */
-.tab-bar {
-    position: fixed;
-    bottom: 0; width: 100%; height: 65px;
-    background: var(--card);
-    display: flex; justify-content: space-around; align-items: center;
-    border-top: 1px solid #eee;
-    z-index: 30;
-}
-.tab-item { 
-    border: none; background: none; 
-    display: flex; flex-direction: column; align-items: center; 
-    font-size: 0.7rem; color: var(--gray); 
-}
-.tab-item.active { color: var(--primary); font-weight: bold; }
+    // 1. Lógica para Mudar a Foto (Truque do FileReader)
+    inputFoto.addEventListener('change', (event) => {
+        const arquivo = event.target.files[0];
+        if (arquivo) {
+            // Cria um leitor de arquivos
+            const leitor = new FileReader();
+            
+            leitor.onload = (e) => {
+                // Quando terminar de ler, troca o src da imagem
+                fotoPerfil.src = e.target.result;
+                btnSalvar.style.display = 'inline-block'; // Mostra o botão salvar
+            };
+            
+            // Lê o arquivo como uma URL (Base64)
+            leitor.readAsDataURL(arquivo);
+        }
+    });
 
-/* --- SISTEMA DE MODAL --- */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 100;
-}
-.modal-content {
-    background: white; padding: 25px;
-    border-radius: 24px; width: 85%; max-width: 400px;
-}
-.modal-content h2 { margin-bottom: 15px; color: var(--primary); font-size: 1.2rem; }
-.modal-content input, .modal-content select {
-    width: 100%; padding: 12px; margin-bottom: 10px;
-    border: 1px solid #ddd; border-radius: 12px; outline: none;
-}
-.modal-buttons { display: flex; gap: 10px; margin-top: 10px; }
+    // 2. Lógica para Mostrar o Botão Salvar ao editar o nome
+    nomePerfil.addEventListener('input', () => {
+        btnSalvar.style.display = 'inline-block';
+    });
 
-.btn-salvar { background: var(--primary); color: white; border: none; flex: 1; padding: 12px; border-radius: 12px; font-weight: bold; }
-.btn-cancelar { background: #eee; color: var(--text); border: none; flex: 1; padding: 12px; border-radius: 12px; }
-
-.empty-msg { text-align: center; color: var(--gray); margin-top: 50px; font-size: 0.9rem; }
-
-/* --- ESTILOS DO PERFIL --- */
-.perfil-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.perfil-header {
-    text-align: center;
-    margin-bottom: 30px;
-    width: 100%;
-}
-
-/* Container da Foto e Botão de Editar */
-.avatar-wrapper {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 15px;
-}
-
-#foto-perfil {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--primary);
-    background: white;
-}
-
-/* O lapisinho no canto da foto */
-.btn-editar-foto {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    background: var(--secondary);
-    color: white;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 1.2rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: 0.3s;
-}
-
-.btn-editar-foto:hover { background: var(--primary); transform: scale(1.1); }
-
-/* Nome Editável */
-#nome-perfil {
-    font-size: 1.8rem;
-    color: var(--text);
-    padding: 5px 10px;
-    border-radius: 8px;
-    border: 2px solid transparent; /* Invisível até o hover */
-    transition: 0.3s;
-}
-
-/* Feedback visual de que é editável */
-#nome-perfil:hover {
-    background: #eeeeee80;
-    border-color: #ddd;
-    cursor: text;
-}
-
-/* Quando o usuário está digitando */
-#nome-perfil:focus {
-    outline: none;
-    border-color: var(--primary);
-    background: white;
-    box-shadow: 0 0 0 3px #6c5ce730;
-}
-
-#email-perfil {
-    color: var(--gray);
-    font-size: 0.9rem;
-    margin-top: -5px;
-    margin-bottom: 15px;
-}
-
-/* Botão Salvar (Para dar um ar profissional) */
-#btn-salvar-perfil {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    animation: fadeIn 0.3s;
-}
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-
-/* --- Stats e Menu (Mantidos) --- */
-.perfil-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Duas colunas iguais */
-    gap: 15px;
-    width: 100%;
-    margin-bottom: 30px;
-}
-
-.stat-item {
-    background: white;
-    padding: 20px 10px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    cursor: pointer; /* Indica que é clicável */
-    transition: transform 0.2s;
-}
-
-.stat-item:active {
-    transform: scale(0.95); /* Efeito de clique */
-}
-
-.stat-item strong { 
-    display: block; 
-    font-size: 1.8rem; 
-    color: var(--primary); 
-}
-
-.stat-item span { 
-    font-size: 0.75rem; 
-    color: var(--gray); 
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.perfil-menu {
-    width: 100%; list-style: none; background: white;
-    border-radius: 16px; overflow: hidden;
-}
-
-.perfil-menu li {
-    padding: 15px 20px; border-bottom: 1px solid #f9f9fb;
-    display: flex; justify-content: space-between; cursor: pointer;
-}
-
-.perfil-menu li.logout { color: #ff4757; font-weight: bold; justify-content: center; }
+    // 3. Lógica do Botão Salvar (Fingindo que salvou)
+    btnSalvar.addEventListener('click', () => {
+        btnSalvar.innerHTML = "Salvando..."; // Feedback visual
+        
+        setTimeout(() => {
+            btnSalvar.style.display = 'none'; // Esconde
+            btnSalvar.innerHTML = "Salvar Alterações"; // Reseta texto
+            alert("Perfil simulado com sucesso! (Isso não é permanente)");
+        }, 800);
+    });
+});
+    </script>
+</body>
+</html>
