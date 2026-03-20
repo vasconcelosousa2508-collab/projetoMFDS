@@ -156,18 +156,21 @@
             if (titulo === "") { alert("Digite ao menos o título!"); return; }
 
             const novoCard = `
-                <section class="post-card">
-                    <div class="book-mini">
-                        <div class="book-cover ${tipo === 'tenho' ? 'available' : 'borrowed'}"></div>
-                        <div class="book-details">
-                            <p><strong>${titulo}</strong></p>
-                            <p>${autor}</p>
-                            <span class="status-text ${tipo === 'desejo' ? 'warning' : ''}">
-                                ${tipo === 'tenho' ? 'Disponível na minha estante' : 'Desejado'}
+            <section class="post-card">
+                <div class="book-info-wrapper">
+                    <div class="book-cover ${tipo === 'tenho' ? 'available' : 'borrowed'}"></div>
+                    <div class="book-details">
+                        <p><strong>${titulo}</strong></p>
+                        <p>${autor}</p>
+                        <span class="status-text ${tipo === 'desejo' ? 'warning' : ''}">
+                            ${tipo === 'tenho' ? 'Disponível na minha estante' : 'Desejado'}
                             </span>
-                        </div>
-                    </div>
-                </section>
+                            </div>
+                            </div>
+                            <button class="btn-excluir" onclick="removerLivro(this)">
+                                <img src="https://img.icons8.com/fluent-systems-regular/512/FA5252/trash.png" alt="Excluir">
+                                </button>
+                                </section>
             `;
 
             const idLista = (tipo === 'tenho') ? 'aba-meus-livros' : 'aba-quero-ler';
@@ -179,6 +182,21 @@
             document.getElementById('input-titulo').value = "";
             document.getElementById('input-autor').value = "";
             fecharModal();
+        }
+
+        function removerLivro(botao) {
+            if (confirm("Deseja remover este livro da estante?")) {
+                // O parentElement do botão é o .post-card
+                const card = botao.closest('.post-card');
+                const lista = card.parentElement;
+        
+                card.remove();
+
+                // Se a lista ficar vazia, mostra a mensagem de "estante vazia" de novo
+                if (lista.querySelectorAll('.post-card').length === 0) {
+                    lista.innerHTML = '<p class="empty-msg">Sua lista está vazia.</p>';
+                }
+            }
         }
     </script>
 </body>

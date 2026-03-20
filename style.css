@@ -165,11 +165,26 @@ margin-top: 20px;
 /* --- CARDS DE LIVROS --- */
 .feed-container { padding: 15px; }
 .post-card {
+    display: flex; 
+    justify-content: space-between; /* Empurra o conteúdo pros cantos opostos */
+    align-items: center;            /* Alinha o ícone da lixeira verticalmente no meio */
     background: var(--card);
     border-radius: 12px;
     padding: 15px;
     margin-bottom: 15px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.book-info-wrapper {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.book-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .book-mini { display: flex; gap: 15px; }
@@ -179,6 +194,28 @@ margin-top: 20px;
 
 .status-text { font-size: 0.75rem; color: var(--secondary); font-weight: bold; }
 .status-text.warning { color: var(--primary); }
+
+.btn-excluir {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px; /* Aumenta a área de clique, melhor pro celular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-excluir img {
+    width: 22px; 
+    height: 22px;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.btn-excluir:hover img {
+    opacity: 1;
+    transform: scale(1.1);
+}
 
 /* --- AÇÕES E ÍCONES --- */
 .post-actions {
