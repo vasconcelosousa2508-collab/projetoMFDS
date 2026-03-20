@@ -272,3 +272,126 @@ margin-top: 20px;
 .btn-cancelar { background: #eee; color: var(--text); border: none; flex: 1; padding: 12px; border-radius: 12px; }
 
 .empty-msg { text-align: center; color: var(--gray); margin-top: 50px; font-size: 0.9rem; }
+
+/* --- ESTILOS DO PERFIL --- */
+.perfil-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.perfil-header {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+/* Container da Foto e Botão de Editar */
+.avatar-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+}
+
+#foto-perfil {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+    background: white;
+}
+
+/* O lapisinho no canto da foto */
+.btn-editar-foto {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--secondary);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.btn-editar-foto:hover { background: var(--primary); transform: scale(1.1); }
+
+/* Nome Editável */
+#nome-perfil {
+    font-size: 1.8rem;
+    color: var(--text);
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 2px solid transparent; /* Invisível até o hover */
+    transition: 0.3s;
+}
+
+/* Feedback visual de que é editável */
+#nome-perfil:hover {
+    background: #eeeeee80;
+    border-color: #ddd;
+    cursor: text;
+}
+
+/* Quando o usuário está digitando */
+#nome-perfil:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px #6c5ce730;
+}
+
+#email-perfil {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-top: -5px;
+    margin-bottom: 15px;
+}
+
+/* Botão Salvar (Para dar um ar profissional) */
+#btn-salvar-perfil {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- Stats e Menu (Mantidos) --- */
+.perfil-stats {
+    display: flex; gap: 20px; width: 100%; margin-bottom: 30px;
+}
+
+.stat-item {
+    flex: 1; background: white; padding: 15px; border-radius: 16px;
+    text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.stat-item strong { display: block; font-size: 1.5rem; color: var(--primary); }
+.stat-item span { font-size: 0.8rem; color: var(--gray); }
+
+.perfil-menu {
+    width: 100%; list-style: none; background: white;
+    border-radius: 16px; overflow: hidden;
+}
+
+.perfil-menu li {
+    padding: 15px 20px; border-bottom: 1px solid #f9f9fb;
+    display: flex; justify-content: space-between; cursor: pointer;
+}
+
+.perfil-menu li.logout { color: #ff4757; font-weight: bold; justify-content: center; }
