@@ -74,9 +74,42 @@
         <div class="feed-container"><h1>Página de Busca</h1></div>
     </div>
     
-    <div id="view-perfil" class="main-tab" style="display:none;">
-        <div class="feed-container"><h1>Meu Perfil</h1></div>
+<div id="view-perfil" class="main-tab" style="display:none;">
+    <div class="perfil-container">
+        
+        <section class="perfil-header">
+            
+            <div class="avatar-wrapper">
+                <img id="foto-perfil" src="https://static.vecteezy.com/system/resources/thumbnails/027/312/306/small/portrait-of-a-dj-with-headphone-isolated-essential-workers-avatar-icons-characters-for-social-media-and-networking-user-profile-website-and-app-3d-render-illustration-png.png" alt="Avatar">
+                <input type="file" id="input-foto" accept="image/*" style="display: none;">
+                <label for="input-foto" class="btn-editar-foto">✎</label>
+            </div>
+            
+            <h2 id="nome-perfil" contenteditable="true" spellcheck="false">Estudante Uni</h2>
+            
+            <p id="email-perfil">seu.email@institucional.edu.br</p>
+            
+            <button id="btn-salvar-perfil" style="display: none;">Salvar Alterações</button>
+        </section>
+
+        <section class="perfil-stats">
+            <div class="stat-item">
+                <strong id="count-meus">12</strong>
+                <span>Meus Livros</span>
+            </div>
+            <div class="stat-item">
+                <strong id="count-quero">5</strong>
+                <span>Quero Ler</span>
+            </div>
+        </section>
+
+        <ul class="perfil-menu">
+            <li><span>Editais da Biblioteca</span> ➔</li>
+            <li><span>Meus Empréstimos</span> ➔</li>
+            <li class="logout" onclick="window.location.reload()">Sair da Conta</li>
+        </ul>
     </div>
+</div>
 
     <div id="view-agenda" class="main-tab" style="display:none;">
         <div class="feed-container"><h1>Agenda</h1></div>
@@ -96,40 +129,54 @@
 </div>
 
     <script>
-        // Login falso
-        document.addEventListener('DOMContentLoaded', () => {
-    
-            const botaoEntrar = document.querySelector('.login-btn');
+// Variável global para guardar o e-mail temporariamente
+    let emailUsuarioLogado = "";
 
-            botaoEntrar.addEventListener('click', () => {
-                // Captura o que o usuário digitou
-                const campoEmail = document.getElementById('email').value;
-                const campoSenha = document.getElementById('senha').value;
+    document.addEventListener('DOMContentLoaded', () => {
+        const botaoEntrar = document.querySelector('.login-btn');
 
-                // A "Mágica" para enganar: se tiver algo escrito em ambos, ele entra
-                if (campoEmail.trim() !== "" && campoSenha.trim() !== "") {
-                    // 1. Esconde o Login
-                    document.getElementById('Login').style.display = 'none';
+        botaoEntrar.addEventListener('click', () => {
+            const campoEmail = document.getElementById('email').value;
+            const campoSenha = document.getElementById('senha').value;
 
-                    // 2. Mostra o app (div Geral)
-                    document.getElementById('geral').style.display = 'block';
-            
-                    console.log("Acesso permitido para: " + campoEmail);
-                } else {
-                    // Se estiver vazio, ele avisa (isso dá um ar de 'app de verdade')
-                    alert("Por favor, preencha o e-mail e a senha institucional.");
-                }
-            });
+            if (campoEmail.trim() !== "" && campoSenha.trim() !== "") {
+                // APENAS GUARDA O EMAIL, não mexe no perfil ainda
+                emailUsuarioLogado = campoEmail;
+
+                document.getElementById('Login').style.display = 'none';
+                document.getElementById('geral').style.display = 'block';
+            } else {
+                alert("Por favor, preencha os campos!");
+            }
         });
+    });
 
+    /* NAVEGAÇÃO PRINCIPAL */
+    function mudarAbaPrincipal(idDaView, botaoClicado) {
+        // Esconde todas as abas
+        document.querySelectorAll('.main-tab').forEach(s => s.style.display = 'none');
+        
+        // Mostra a aba clicada
+        document.getElementById(idDaView).style.display = 'block';
+        
+        // Gerencia a classe active nos botões
+        document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
+        botaoClicado.classList.add('active');
 
-        /* NAVEGAÇÃO PRINCIPAL */
-        function mudarAbaPrincipal(idDaView, botaoClicado) {
-            document.querySelectorAll('.main-tab').forEach(s => s.style.display = 'none');
-            document.getElementById(idDaView).style.display = 'block';
-            document.querySelectorAll('.tab-item').forEach(b => b.classList.remove('active'));
-            botaoClicado.classList.add('active');
+        // --- NOVIDADE AQUI: Se a aba clicada for o Perfil, preenche os dados ---
+        if (idDaView === 'view-perfil') {
+            const campoNome = document.getElementById('nome-perfil');
+            const campoEmailPerfil = document.getElementById('email-perfil');
+
+            // Se o nome ainda estiver com o texto original ou vazio, coloca "Você"
+            if (campoNome.innerText === "" || campoNome.innerText === "Meu Perfil") {
+                campoNome.innerText = "Você";
+            }
+            
+            // Preenche o e-mail que guardamos no login
+            campoEmailPerfil.innerText = emailUsuarioLogado;
         }
+    }
 
         /* NAVEGAÇÃO SUB-ABAS (Estante) */
         function trocarSubAba(idSubAba, botaoClicado) {
@@ -198,7 +245,57 @@
                 }
             }
         }
+
+      // Navegação Perfil sub aba
+      // DENTRO da função que você usa para fazer o LOGIN:
+const emailDigitado = document.getElementById('email').value; // Pega o email do input de login
+document.getElementById('email-perfil').innerText = emailDigitado; // Joga no perfil
+
+// Opcional: Tenta criar um nome padrão a partir do email
+const nomeSimulado = emailDigitado.split('@')[0];
+document.getElementById('nome-perfil').innerText = nomeSimulado.charAt(0).toUpperCase() + nomeSimulado.slice(1);
+
+      /* --- LÓGICA DE EDIÇÃO DO PERFIL --- */
+document.addEventListener('DOMContentLoaded', () => {
+    const inputFoto = document.getElementById('input-foto');
+    const fotoPerfil = document.getElementById('foto-perfil');
+    const nomePerfil = document.getElementById('nome-perfil');
+    const btnSalvar = document.getElementById('btn-salvar-perfil');
+
+    // 1. Lógica para Mudar a Foto (Truque do FileReader)
+    inputFoto.addEventListener('change', (event) => {
+        const arquivo = event.target.files[0];
+        if (arquivo) {
+            // Cria um leitor de arquivos
+            const leitor = new FileReader();
+            
+            leitor.onload = (e) => {
+                // Quando terminar de ler, troca o src da imagem
+                fotoPerfil.src = e.target.result;
+                btnSalvar.style.display = 'inline-block'; // Mostra o botão salvar
+            };
+            
+            // Lê o arquivo como uma URL (Base64)
+            leitor.readAsDataURL(arquivo);
+        }
+    });
+
+    // 2. Lógica para Mostrar o Botão Salvar ao editar o nome
+    nomePerfil.addEventListener('input', () => {
+        btnSalvar.style.display = 'inline-block';
+    });
+
+    // 3. Lógica do Botão Salvar (Fingindo que salvou)
+    btnSalvar.addEventListener('click', () => {
+        btnSalvar.innerHTML = "Salvando..."; // Feedback visual
+        
+        setTimeout(() => {
+            btnSalvar.style.display = 'none'; // Esconde
+            btnSalvar.innerHTML = "Salvar Alterações"; // Reseta texto
+            alert("Perfil simulado com sucesso! (Isso não é permanente)");
+        }, 800);
+    });
+});
     </script>
 </body>
 </html>
-
